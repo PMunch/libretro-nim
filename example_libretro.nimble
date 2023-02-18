@@ -3,17 +3,16 @@ author        = "David Konsumer"
 description   = "Example libretro core"
 license       = "MIT"
 srcDir        = "src"
+bin           = @["example_libretro.so"]
 
 requires "nim >= 1.6.10"
+requires "futhark >= 0.9.0"
 
-task core, "Build your libretro core":
-  selfExec("c --app:lib --out:example_libretro.dylib -d:useSysAssert -d:useGcAssert -d:debug --mm:none src/example_libretro.nim")
+import os
 
 # TODO: is there a more cross-platform way to do this?
 task example, "Build C example to compare":
-  exec("gcc example/example.c -shared -fPIC -o example_libretro_c.dylib")
-
-import os
+  exec("gcc example/example.c -shared -fPIC -o example_libretro_c.so")
 
 task clean, "Clean built files":
   for file in listFiles("."):
